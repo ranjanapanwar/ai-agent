@@ -1,0 +1,22 @@
+name: Deploy to GCP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH and deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.GCP_VM_IP }}
+          username: ranjanapanwar
+          key: ${{ secrets.GCP_SSH_KEY }}
+          script: |
+            cd ai-agent
+            git pull origin main
+            docker compose down
+            docker compose up --build -d
