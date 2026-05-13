@@ -21,4 +21,5 @@ def create_agent_graph():
     return graph
 
 memory = RedisSaver(REDIS_URL)
+memory.setup()
 agent_graph = create_agent_graph().compile(checkpointer=memory)
